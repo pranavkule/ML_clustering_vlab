@@ -1,0 +1,65 @@
+:root {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #1f2933;
+  background: #fff;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: #fff; }
+button, input, select { font: inherit; }
+.app-shell { min-height: 100vh; display: grid; grid-template-columns: 240px minmax(0, 1fr); }
+.sidebar { position: sticky; top: 0; height: 100vh; padding: 2rem 1rem; background: #fff; border-right: 1px solid #e5e7eb; }
+.sidebar-brand { margin: 0 .65rem 1.25rem; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #1f4e79; }
+.sidebar nav { display: flex; flex-direction: column; gap: .15rem; }
+.nav-item { text-align: left; border: 0; border-radius: 4px; background: transparent; color: #374151; padding: .65rem .75rem; cursor: pointer; }
+.nav-item:hover { background: #f7f9fb; }
+.nav-item.active { background: #eef3f8; box-shadow: inset 3px 0 #1f4e79; color: #1f2933; font-weight: 600; }
+main { min-width: 0; }
+.content { width: min(1180px, 100%); margin: 0 auto; padding: 2.2rem 2rem 4rem; }
+h1 { margin: 0; font-size: 2.05rem; line-height: 1.15; letter-spacing: -.01em; }
+h2 { margin-top: 1.6rem; font-size: 1.2rem; }
+p, li, td, th { color: #374151; line-height: 1.65; }
+.subtitle, .helper { color: #6b7280; }
+.kicker { color: #1f4e79; font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.rule { border-top: 1px solid #e5e7eb; margin: 1.35rem 0 1.55rem; }
+.aim-box { border: 1px solid #e5e7eb; border-left: 3px solid #1f4e79; border-radius: 4px; background: #fbfcfd; padding: 1rem 1.15rem; margin: 1rem 0; }
+.aim-box p { margin-bottom: 0; }
+.equation { border-left: 2px solid #d1d5db; padding: .55rem 1rem; margin: 1rem 0; font-family: Cambria, Georgia, serif; font-size: 1.15rem; }
+.control-section { border-top: 1px solid #e5e7eb; padding-top: .25rem; margin-top: 1rem; }
+.control-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+label { color: #374151; }
+.control-grid label, .quiz-question legend { font-weight: 600; }
+.control-grid input, .control-grid select { display: block; width: 100%; margin-top: .35rem; border: 1px solid #cfd8e3; border-radius: 4px; background: white; padding: .55rem .65rem; }
+button { border: 1px solid #cfd8e3; border-radius: 4px; background: white; color: #374151; padding: .58rem .85rem; cursor: pointer; }
+button.primary { background: #1f4e79; border-color: #1f4e79; color: #fff; }
+button:disabled { cursor: wait; opacity: .65; }
+.button-row { display: flex; gap: .75rem; flex-wrap: wrap; margin: 1rem 0; }
+.segmented { display: flex; width: fit-content; border: 1px solid #cfd8e3; border-radius: 4px; margin-top: 1rem; overflow: hidden; }
+.segmented button { border: 0; border-radius: 0; }
+.segmented button.selected { background: #eef3f8; color: #1f4e79; font-weight: 600; }
+.check-row { display: flex; align-items: center; gap: .5rem; margin: 1rem 0; }
+.notice { border-left: 3px solid #1f4e79; background: #f7f9fb; padding: .75rem 1rem; }
+.notice.error { border-left-color: #991b1b; }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1rem 0; }
+.metrics div { border: 1px solid #e5e7eb; border-radius: 4px; padding: .75rem 1rem; display: flex; flex-direction: column; }
+.metrics span { color: #6b7280; font-size: .82rem; }
+.metrics strong { margin-top: .2rem; font-size: 1.35rem; }
+.chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #e5e7eb; padding: .65rem; text-align: left; }
+.quiz-question { border: 1px solid #e5e7eb; border-radius: 4px; margin: 1rem 0; padding: .8rem 1rem 1rem; }
+.quiz-option { display: flex; gap: .55rem; align-items: flex-start; padding: .35rem; font-weight: normal; }
+.quiz-option input { margin-top: .3rem; }
+.review { border-top: 1px solid #e5e7eb; padding-top: .75rem; }
+.correct { color: #166534; font-weight: 700; }
+.incorrect { color: #991b1b; font-weight: 700; }
+
+@media (max-width: 900px) {
+  .app-shell { grid-template-columns: 200px minmax(0, 1fr); }
+  .sidebar { padding-left: .5rem; padding-right: .5rem; }
+  .content { padding-left: 1rem; padding-right: 1rem; }
+  h1 { font-size: 1.7rem; }
+  .chart-grid { grid-template-columns: 1fr; }
+}
