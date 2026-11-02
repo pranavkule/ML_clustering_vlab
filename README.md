@@ -77,8 +77,7 @@ From the project root:
 ```powershell
 python -m pip install -r requirements.txt
 python -m pip install -r backend/requirements.txt
-cd backend
-python -m uvicorn main:app --reload --port 8000
+python -m uvicorn backend.main:app --reload --port 8000
 ```
 
 FastAPI is available at `http://localhost:8000`, with interactive API documentation at `http://localhost:8000/docs`.
@@ -90,12 +89,60 @@ In a second terminal:
 ```powershell
 cd frontend
 npm install
+Copy-Item .env.example .env.local
 npm run dev
 ```
 
 Open `http://localhost:5173`.
 
 The Vite development server proxies `/api` requests to FastAPI at port 8000.
+
+Set `VITE_API_BASE_URL` to the deployed Render API URL, for example:
+
+```text
+VITE_API_BASE_URL=https://your-service.onrender.com
+```
+
+Do not add a trailing slash. A local `.env.local` is ignored by Git.
+
+## Production Deployment
+
+### Render backend
+
+The repository root includes `render.yaml`. Render should use the repository root and Python runtime. The configured build and start commands are:
+
+```text
+Build command: python -m pip install -r backend/requirements.txt
+Start command: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+Health check: /api/health
+```
+
+Configure this backend environment variable after obtaining the deployed Vercel origin:
+
+```text
+FRONTEND_ORIGIN=https://your-project.vercel.app
+```
+
+Multiple trusted origins can be comma-separated. Trailing slashes are accepted and normalized.
+
+### Vercel frontend
+
+Create the Vercel project with:
+
+```text
+Root directory: frontend
+Framework preset: Vite
+Build command: npm run build
+Output directory: dist
+```
+
+Add the following production environment variable:
+
+```text
+VITE_API_BASE_URL=https://your-render-service.onrender.com
+```
+
+The frontend configuration file [frontend/vercel.json](frontend/vercel.json) routes refreshes and direct navigation to the React application.
 
 ## Navigation Sections
 

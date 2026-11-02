@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import sys
 import uuid
+import os
+import time
 from pathlib import Path
 from typing import Literal
 
@@ -20,9 +22,22 @@ from modules.evaluation import compute_silhouette
 from modules.kmeans_lab import KMeansStepper, run_kmeans
 
 app = FastAPI(title="Clustering Visualizer API", version="1.0.0")
+
+def _configured_origins() -> list[str]:
+    origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ]
+    configured = os.getenv("FRONTEND_ORIGIN", "")
+    for origin in configured.split(","):
+        normalized = origin.strip().rstrip("/")
+        if normalized:
+            origins.append(normalized)
+    return list(dict.fromkeys(origins))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=_configured_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -245,6 +260,21 @@ def evaluate_endpoint(request: EvaluateRequest) -> dict:
 
 _steppers: dict[str, KMeansStepper] = {}
 _step_X: dict[str, np.ndarray] = {}
+_step_timestamps: dict[str, float] = {}
+_STEP_SESSION_TTL_SECONDS = 30 * 60
+
+
+def _cleanup_expired_steppers() -> None:
+    now = time.monotonic()
+    expired = [
+        experiment_id
+        for experiment_id, last_used_at in _step_timestamps.items()
+        if now - last_used_at > _STEP_SESSION_TTL_SECONDS
+    ]
+    for experiment_id in expired:
+        _steppers.pop(experiment_id, None)
+        _step_X.pop(experiment_id, None)
+        _step_timestamps.pop(experiment_id, None)
 
 
 def _step_state(experiment_id: str, stepper: KMeansStepper) -> dict:
@@ -268,6 +298,7 @@ def _step_state(experiment_id: str, stepper: KMeansStepper) -> dict:
 
 @app.post("/api/kmeans/step")
 def kmeans_step_endpoint(request: StepCreateRequest | StepRequest) -> dict:
+    _cleanup_expired_steppers()
     if isinstance(request, StepRequest):
         experiment_id = request.experiment_id
         stepper = _steppers.get(experiment_id)
@@ -279,6 +310,7 @@ def kmeans_step_endpoint(request: StepCreateRequest | StepRequest) -> dict:
             stepper.update_step()
         elif request.action == "finish":
             stepper.run_to_convergence()
+        _step_timestamps[experiment_id] = time.monotonic()
         return _step_state(experiment_id, stepper)
 
     X = _matrix(request.X)
@@ -289,6 +321,7 @@ def kmeans_step_endpoint(request: StepCreateRequest | StepRequest) -> dict:
     experiment_id = uuid.uuid4().hex
     _steppers[experiment_id] = stepper
     _step_X[experiment_id] = X
+    _step_timestamps[experiment_id] = time.monotonic()
     return _step_state(experiment_id, stepper)
 
 

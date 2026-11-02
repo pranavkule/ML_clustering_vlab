@@ -8,6 +8,13 @@ __pycache__/
 .eggs/
 build/
 dist/
+frontend/dist/
+node_modules/
+frontend/node_modules/
+.env
+.env.local
+.env.*.local
+.vercel/
 
 # Virtual environments
 .venv/
@@ -35,6 +42,5 @@ Thumbs.db
 
 # Local experiment exports
 *.csv
-*.json
 *.png
 *.pdf

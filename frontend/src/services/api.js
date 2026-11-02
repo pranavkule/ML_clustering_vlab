@@ -1,10 +1,15 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || ''
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '')
 
 async function request(path, options = {}) {
-  const response = await fetch(`${API_BASE}${path}`, {
-    ...options,
-    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
-  })
+  let response
+  try {
+    response = await fetch(`${API_BASE}${path}`, {
+      ...options,
+      headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+    })
+  } catch {
+    throw new Error('Unable to reach the API. Check the backend server and VITE_API_BASE_URL.')
+  }
   const body = await response.json().catch(() => ({}))
   if (!response.ok) {
     throw new Error(body.detail || `Request failed with status ${response.status}`)
