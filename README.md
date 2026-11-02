@@ -195,7 +195,7 @@ Python compilation and the existing plus API regression tests:
 
 ```bash
 python -m compileall modules backend tests
-python -m unittest discover -s tests -v
+python -m pytest -q
 ```
 
 Frontend production build:
