@@ -1,180 +1,538 @@
-# Clustering Visualizer
+# 🔬 Clustering Visualizer – Machine Learning Virtual Lab
 
-**An Interactive Laboratory for Partitioning and Density-Based Algorithms**
+An interactive web-based virtual laboratory for learning, implementing, visualizing, and comparing **K-Means and DBSCAN clustering algorithms**.
 
-A React and FastAPI virtual laboratory for K-Means and DBSCAN clustering. The backend preserves the original real Scikit-learn implementations; the React interface uses Plotly.js for interactive two-dimensional visualizations.
+Built using **React, FastAPI, Python, Scikit-learn, and Plotly.js**, this project provides a hands-on environment to explore unsupervised machine learning through interactive simulations, customizable datasets, performance metrics, and quiz-based assessments.
 
-## Aim
+---
 
-Understand, implement, visualize, and compare K-Means and DBSCAN clustering using reproducible datasets and the Silhouette Score.
+## 📌 Table of Contents
 
-## Learning Objectives
+- [Overview](#-overview)
+- [Objectives](#-objectives)
+- [Features](#-features)
+- [Algorithms Implemented](#-algorithms-implemented)
+- [Available Datasets](#-available-datasets)
+- [Technology Stack](#-technology-stack)
+- [Project Architecture](#-project-architecture)
+- [Project Structure](#-project-structure)
+- [Installation and Setup](#-installation-and-setup)
+- [API Endpoints](#-api-endpoints)
+- [Evaluation Metrics](#-evaluation-metrics)
+- [Testing](#-testing)
+- [Limitations](#-limitations)
+- [Future Enhancements](#-future-enhancements)
 
-1. Understand unsupervised learning and clustering.
-2. Explain K-Means initialization, assignment, centroid updates, and convergence.
-3. Understand DBSCAN's eps, MinPts, core, border, and noise-point concepts.
-4. Explore parameter effects.
-5. Compare partitioning and density-based methods.
-6. Interpret the Silhouette Score and its validity conditions.
+---
 
-## Features
+## 📖 Overview
 
-- Five-section academic virtual lab: Aim, Theory, Procedure, Simulation, and Quiz Based Assessment.
-- Deterministic synthetic datasets: Blobs, Moons, Circles, Noisy blobs, and a configurable random dataset.
-- Real K-Means clustering with cluster assignments, centroids, inertia, iteration count, and Silhouette Score.
-- An explicit step-by-step K-Means mode for observing centroid initialization, point assignment, centroid updates, and convergence.
-- Real DBSCAN clustering with core points, border points, noise points, cluster counts, and Silhouette Score.
-- Correct handling of invalid Silhouette Score configurations, including single-cluster and all-noise results.
-- Side-by-side K-Means vs. DBSCAN comparison on identical data.
-- Data-driven experimental observations based on the fitted results.
-- Ten-question interactive assessment with scoring, grade, answer review, and explanations.
-- Session-state preservation of datasets, parameters, results, step-by-step state, and quiz progress.
+Clustering is an important technique in unsupervised machine learning used to group similar data points without predefined labels.
 
-## Technology Stack
+Understanding clustering algorithms theoretically can be challenging, particularly when learning how parameters, centroids, and data distributions affect the final results.
 
-- React and Vite
-- JavaScript, HTML, and CSS
-- Plotly.js
-- Python and FastAPI
-- NumPy, Pandas, and Scikit-learn
+**Clustering Visualizer** addresses this challenge by providing an interactive virtual laboratory where students can:
 
-## Project Structure
+- Generate and explore different datasets.
+- Execute K-Means and DBSCAN clustering algorithms.
+- Observe clustering results through interactive visualizations.
+- Understand the internal working of K-Means step by step.
+- Experiment with different algorithm parameters.
+- Compare the performance and behavior of both algorithms.
+- Evaluate clustering quality using the Silhouette Score.
+- Test their understanding through an interactive quiz.
+
+The application combines machine learning computation with an intuitive educational interface.
+
+## 🎯 Objectives
+
+1. Understand the fundamentals of unsupervised learning and clustering.
+2. Study the working principles of K-Means and DBSCAN algorithms.
+3. Visualize cluster formation and understand the effect of algorithm parameters.
+4. Explore the differences between partitioning-based and density-based clustering.
+5. Evaluate clustering quality using appropriate performance metrics.
+6. Provide an interactive platform for practical machine learning experimentation.
+
+## ✨ Features
+
+### 1. Five-Section Virtual Laboratory
+
+The application follows a structured academic laboratory format:
+
+| Section | Description |
+|---|---|
+| Aim | Presents the experiment objective and learning objectives. |
+| Theory | Explains clustering concepts, algorithms, and evaluation metrics. |
+| Procedure | Provides step-by-step experimental instructions. |
+| Simulation | Allows interactive execution and visualization of clustering algorithms. |
+| Quiz-Based Assessment | Evaluates understanding through multiple-choice questions. |
+
+### 2. Interactive Dataset Generation
+
+Generate reproducible synthetic datasets with configurable parameters.
+
+- Select different dataset types.
+- Configure the number of samples.
+- Adjust noise and cluster spread.
+- Set the number of groups where applicable.
+- Specify a random seed for reproducible experiments.
+
+### 3. K-Means Clustering
+
+- Execute actual Scikit-learn K-Means clustering.
+- Configure the number of clusters (K).
+- Select centroid initialization methods.
+- Set maximum iterations.
+- Visualize cluster assignments and centroids.
+- View inertia, iteration count, and Silhouette Score.
+
+**Step-by-Step K-Means Simulation**
+
+An additional custom implementation of Lloyd's algorithm allows students to observe:
+
+1. Centroid initialization.
+2. Assignment of data points to the nearest centroid.
+3. Centroid recalculation.
+4. Convergence checking.
+5. Final cluster formation.
+
+### 4. DBSCAN Clustering
+
+Explore density-based clustering through configurable parameters.
+
+- Adjust epsilon (`eps`).
+- Configure minimum samples (`MinPts`).
+- Select distance metrics: Euclidean, Manhattan, and Cosine.
+- Identify core points, border points, and noise points.
+- Visualize clusters and outliers.
+- Evaluate clustering results using the Silhouette Score.
+
+### 5. K-Means vs DBSCAN Comparison
+
+Compare both algorithms using the same generated dataset.
+
+- Side-by-side clustering visualizations.
+- Comparison of cluster assignments.
+- Evaluation metrics.
+- Observation of differences in cluster formation.
+- Understanding how each algorithm handles noise and irregularly shaped clusters.
+
+### 6. Clustering Evaluation
+
+Evaluate clustering quality using the Silhouette Score with appropriate handling of invalid scoring conditions.
+
+### 7. Interactive Quiz Assessment
+
+- Ten multiple-choice questions.
+- Four options per question.
+- Automatic score calculation.
+- Percentage and grade calculation.
+- Correct-answer review.
+- Explanations for submitted answers.
+
+---
+
+## 🧠 Algorithms Implemented
+
+### K-Means Clustering
+
+K-Means is a partitioning-based unsupervised learning algorithm that divides data points into K clusters.
+
+**Working:**
+
+1. Select K initial centroids.
+2. Assign each data point to its nearest centroid.
+3. Recalculate centroids using the mean of assigned points.
+4. Repeat assignment and update steps until convergence or the maximum iteration limit is reached.
+
+**Key characteristics:**
+- Requires the number of clusters beforehand.
+- Uses centroids to represent clusters.
+- Minimizes within-cluster sum of squared distances (inertia).
+- Sensitive to initialization and outliers.
+
+### DBSCAN Clustering
+
+DBSCAN (Density-Based Spatial Clustering of Applications with Noise) groups data points based on their density.
+
+**Key parameters:**
+
+| Parameter | Description |
+|---|---|
+| Epsilon (`eps`) | Radius of the neighbourhood around a point. |
+| MinPts (`min_samples`) | Minimum number of samples required to form a dense neighbourhood. |
+
+**Point classifications:**
+
+- **Core Point:** Has at least MinPts samples within its epsilon neighbourhood, including itself.
+- **Border Point:** Lies within the neighbourhood of a core point but does not independently satisfy the density requirement.
+- **Noise Point:** Does not belong to any discovered cluster.
+
+**Key characteristics:**
+- Does not require the number of clusters beforehand.
+- Can identify irregularly shaped clusters.
+- Can detect noise and outliers.
+- Sensitive to parameter selection and varying data densities.
+
+### Algorithm Comparison
+
+| Parameter | K-Means | DBSCAN |
+|---|---|---|
+| Approach | Partitioning-based | Density-based |
+| Number of clusters | Required beforehand | Determined automatically |
+| Cluster representation | Centroids | Dense regions |
+| Noise detection | No explicit noise class | Yes |
+| Cluster shapes | Best suited to compact clusters | Supports irregular shapes |
+| Main parameters | K, initialization | Epsilon, MinPts |
+
+---
+
+## 📊 Available Datasets
+
+The application supports five synthetic dataset configurations.
+
+| Dataset | Description |
+|---|---|
+| Blobs | Well-separated, approximately spherical clusters. |
+| Moons | Two interleaving crescent-shaped clusters. |
+| Circles | Concentric circular clusters. |
+| Noisy Blobs | Blob-shaped clusters with additional random noise. |
+| Custom Random | Configurable randomly generated blob clusters. |
+
+These datasets help demonstrate how different clustering algorithms behave with different data distributions.
+
+---
+
+## 🛠️ Technology Stack
+
+| Category | Technologies |
+|---|---|
+| Frontend | React, JavaScript, HTML, CSS |
+| Build Tool | Vite |
+| Visualization | Plotly.js |
+| Backend | Python, FastAPI |
+| Machine Learning | Scikit-learn |
+| Data Processing | NumPy, Pandas |
+| API Validation | Pydantic |
+| Testing | Python unittest |
+
+---
+
+## 🏗️ Project Architecture
+
+The application follows a frontend-backend architecture.
 
 ```text
-clustering-visualizer/
+              ┌──────────────────────┐
+              │      React UI        │
+              │                      │
+              │  Dataset Selection   │
+              │  Algorithm Controls  │
+              │  Interactive Charts  │
+              │  Quiz Assessment     │
+              └──────────┬───────────┘
+                         │
+                    REST API
+                         │
+              ┌──────────▼───────────┐
+              │     FastAPI          │
+              │                      │
+              │  Request Validation  │
+              │  API Endpoints       │
+              │  Response Handling   │
+              └──────────┬───────────┘
+                         │
+              ┌──────────▼───────────┐
+              │   Python ML Modules  │
+              │                      │
+              │  Dataset Generation  │
+              │  K-Means              │
+              │  DBSCAN               │
+              │  Evaluation           │
+              │  Quiz Management      │
+              └──────────┬───────────┘
+                         │
+              ┌──────────▼───────────┐
+              │  JSON Responses      │
+              │  Clusters & Metrics  │
+              └──────────┬───────────┘
+                         │
+              ┌──────────▼───────────┐
+              │ Plotly Visualization │
+              └──────────────────────┘
+```
+
+### How It Works
+
+1. The user selects a dataset and configures experiment parameters through the React interface.
+2. React sends an HTTP request to the FastAPI backend.
+3. FastAPI validates the request using Pydantic.
+4. Python modules generate datasets and execute the selected clustering algorithm.
+5. The evaluation module calculates clustering metrics.
+6. The backend returns the results in JSON format.
+7. React processes the response and displays interactive visualizations using Plotly.js.
+
+---
+
+## 📁 Project Structure
+
+```text
+ML_clustering_vlab/
+│
 ├── backend/
 │   ├── main.py
 │   ├── requirements.txt
 │   └── modules/
+│
 ├── frontend/
 │   ├── package.json
 │   └── src/
+│
 ├── modules/
+│   ├── datasets.py
+│   ├── kmeans_lab.py
+│   ├── dbscan_lab.py
+│   ├── evaluation.py
+│   └── quiz.py
+│
 ├── tests/
+│
 ├── .env.example
+├── .gitignore
 ├── requirements.txt
 └── README.md
 ```
 
 ### Module Responsibilities
 
-- `backend/main.py`: FastAPI application, Pydantic requests, REST endpoints, and JSON serialization.
-- `frontend/src`: React components, API service, experiment hook, Plotly charts, and academic CSS.
-- `modules/datasets.py`: deterministic two-feature synthetic dataset generation.
-- `modules/kmeans_lab.py`: Scikit-learn K-Means execution and the custom step-by-step Lloyd implementation.
-- `modules/dbscan_lab.py`: Scikit-learn DBSCAN execution and core/border/noise identification.
-- `modules/evaluation.py`: Silhouette Score calculation with explicit invalid-state handling.
-- `modules/quiz.py`: question bank, answer key, scoring, grade calculation, and explanations.
+| File | Responsibility |
+|---|---|
+| `backend/main.py` | FastAPI application, API endpoints, request validation, and response handling. |
+| `modules/datasets.py` | Synthetic dataset generation. |
+| `modules/kmeans_lab.py` | Standard and step-by-step K-Means implementations. |
+| `modules/dbscan_lab.py` | DBSCAN execution and point classification. |
+| `modules/evaluation.py` | Silhouette Score calculation and validation. |
+| `modules/quiz.py` | Quiz questions, answer validation, scoring, and explanations. |
+| `frontend/src/` | React components, API integration, interactive charts, and UI. |
+| `tests/` | Backend and API regression tests. |
 
-## Installation
+---
 
-Python 3.11 or newer and Node.js 18 or newer are recommended.
+## 🚀 Installation and Setup
 
-### Backend
+### Prerequisites
 
-From the project root:
+Make sure the following are installed:
 
-```powershell
+- Python 3.11 or newer
+- Node.js 18 or newer
+- npm
+- Git
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/pranavkule/ML_clustering_vlab.git
+
+cd ML_clustering_vlab
+```
+
+### Step 2: Set Up the Backend
+
+Create a Python virtual environment:
+
+**Windows:**
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+**Linux / macOS:**
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Install dependencies from the project root:
+
+```bash
 python -m pip install -r requirements.txt
+
 python -m pip install -r backend/requirements.txt
+```
+
+### Step 3: Start the Backend Server
+
+```bash
 cd backend
+
 python -m uvicorn main:app --reload --port 8000
 ```
 
-FastAPI is available at `http://localhost:8000`, with interactive API documentation at `http://localhost:8000/docs`.
+Backend URL:
 
-### Frontend
+http://localhost:8000
 
-In a second terminal:
+Interactive API documentation:
 
-```powershell
+http://localhost:8000/docs
+
+### Step 4: Set Up the Frontend
+
+Open a new terminal from the project root:
+
+```bash
 cd frontend
+
 npm install
+```
+
+### Step 5: Start the Frontend Server
+
+```bash
 npm run dev
 ```
 
-Open `http://localhost:5173`.
+Frontend URL:
 
-The Vite development server proxies `/api` requests to FastAPI at port 8000.
+http://localhost:5173
 
-## Navigation Sections
+**Note:** The Vite development server is configured to proxy `/api` requests to the FastAPI backend running on port 8000. Keep both servers running while using the application.
 
-1. **Aim** — presents the laboratory objective, introduction, and learning objectives.
-2. **Theory** — explains unsupervised learning, K-Means, DBSCAN, point types, the comparison between the algorithms, and the Silhouette Score.
-3. **Procedure** — gives a general experiment workflow, separate K-Means and DBSCAN procedures, and an observation template.
-4. **Simulation** — provides the interactive dataset generation, clustering experiments, step-by-step K-Means mode, DBSCAN point-type visualization, comparison mode, metrics, and observations.
-5. **Quiz Based Assessment** — contains ten multiple-choice questions with immediate scoring and explanation review after submission.
+---
 
-## K-Means and DBSCAN in Brief
+## 🔗 API Endpoints
 
-**K-Means** is a partitioning algorithm. It represents each of K clusters by a centroid, assigns every point to the nearest centroid, and repeatedly moves each centroid to the mean of its assigned points. It minimizes the within-cluster sum of squared distances, also called inertia. K-Means is fast and easy to interpret, but K must be selected in advance, the clusters are assumed to be reasonably compact, and every point must be assigned to a cluster.
+The backend exposes REST API endpoints for dataset generation, clustering, evaluation, comparison, and quiz assessment.
 
-**DBSCAN** is a density-based algorithm. It uses a neighbourhood radius `eps` and a minimum density `MinPts`. A point is a core point when its eps-neighbourhood contains at least MinPts samples. A border point is within eps of a core point but is not itself a core point. A noise point is neither. DBSCAN discovers the number of clusters automatically, can find irregularly shaped clusters, and can label outliers as noise. Its results depend strongly on the density structure of the data and on the chosen `eps` and `MinPts` values. DBSCAN does not compute cluster centroids as part of its standard algorithm.
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/health` | Check backend availability. |
+| GET | `/api/datasets` | Retrieve available dataset configurations. |
+| POST | `/api/datasets/generate` | Generate a synthetic dataset. |
+| POST | `/api/kmeans/run` | Execute K-Means clustering. |
+| POST | `/api/dbscan/run` | Execute DBSCAN clustering. |
+| POST | `/api/compare` | Compare K-Means and DBSCAN. |
+| POST | `/api/evaluate` | Calculate clustering evaluation metrics. |
+| POST | `/api/kmeans/step` | Perform step-by-step K-Means operations. |
+| GET | `/api/quiz` | Retrieve quiz questions. |
+| POST | `/api/quiz/submit` | Submit and evaluate quiz answers. |
 
-## Conducting the Experiments
+For request and response details, visit the interactive FastAPI documentation at:
 
-1. Open **Simulation** and choose a dataset type.
-2. Set the number of samples, noise or cluster spread, number of groups where applicable, and a random seed.
-3. Click **Generate Dataset** to create a deterministic dataset from those settings.
-4. Select **K-Means** and configure K, initialization, maximum iterations, and seed.
-5. Click **Run Clustering** and inspect the original dataset, the cluster assignments, the centroids, the inertia, and the Silhouette Score.
-6. Open the **Step-by-step K-Means** section to initialize centroids and advance through assignment and update operations.
-7. Select **DBSCAN**, configure eps, MinPts, and the distance metric, and run the experiment.
-8. Inspect core points, border points, and noise points. Note that the number of clusters excludes noise.
-9. Change one parameter at a time and rerun. The interface marks results that do not match the current controls.
-10. Enable **Comparison mode** to run K-Means and DBSCAN on exactly the same data and review the side-by-side plots and comparison table.
+http://localhost:8000/docs
 
-## Silhouette Score
+---
 
-The Silhouette Score compares how close a point is to its own cluster with how close it is to the nearest other cluster:
+## 📈 Evaluation Metrics
 
-```text
-s(i) = (b(i) - a(i)) / max(a(i), b(i))
-```
+### Silhouette Score
 
-- `a(i)` is the mean distance from point i to the other points in its own cluster.
-- `b(i)` is the smallest mean distance from point i to the points of another cluster.
-- Values close to +1 generally indicate compact, well-separated clusters.
-- Values near 0 indicate points near cluster boundaries.
-- Negative values can indicate potentially inappropriate assignments.
+The application uses the Silhouette Score to measure how well-separated and cohesive the generated clusters are.
 
-The score is not defined for every result. It requires at least two clusters and fewer clusters than evaluated samples. The application reports the score as unavailable, together with a reason, for single-cluster results, all-noise DBSCAN results, and results in which every point forms its own cluster.
+The score is calculated as:
 
-For DBSCAN, the application excludes noise points from the Silhouette Score and reports how many points were excluded. K-Means uses all points. Because the two scores may be computed on different point sets, they should not be treated as a direct like-for-like ranking. The Silhouette Score is also a diagnostic rather than proof that a clustering is correct; it can favour compact convex clusters.
+\[
+S(i)=\frac{b(i)-a(i)}{\max(a(i),b(i))}
+\]
 
-## Testing and Verification
+Where:
 
-Python compilation and the existing plus API regression tests:
+- `a(i)` is the average distance between a data point and other points in its own cluster.
+- `b(i)` is the minimum average distance between that point and points in another cluster.
+
+**Interpretation:**
+
+| Score | Meaning |
+|---|---|
+| Close to +1 | Well-separated clusters. |
+| Close to 0 | Points are near cluster boundaries. |
+| Negative | Potentially incorrect cluster assignments. |
+
+**Special handling:**
+
+- The score is unavailable when fewer than two valid clusters exist.
+- All-noise DBSCAN results are handled separately.
+- DBSCAN noise points are excluded from Silhouette Score calculation, and the excluded count is reported.
+- Scores calculated on different sets of points should not be treated as directly comparable.
+
+---
+
+## 🧪 Testing
+
+The project includes Python compilation checks and backend/API regression tests.
+
+Run the following commands from the project root.
+
+### Python Compilation Check
 
 ```bash
 python -m compileall modules backend tests
+```
+
+### Run Backend Tests
+
+```bash
 python -m unittest discover -s tests -v
 ```
 
-Frontend production build:
+### Frontend Production Build
 
 ```bash
 cd frontend
+
 npm run build
 ```
 
-## Known Limitations
+---
 
-- The application intentionally supports only two-feature synthetic datasets for direct visualization.
-- The step-by-step K-Means mode uses one initialization, while the standard Scikit-learn result uses `n_init=10`; the two results can therefore differ.
-- K-Means and DBSCAN results are sensitive to their parameters and to the scale/density of the data.
-- A single DBSCAN `eps`/`MinPts` pair may not suit datasets containing very different density levels.
-- Silhouette Scores are not directly comparable across different evaluated point sets.
-- Experiment state is maintained by the React application and step-by-step state is held temporarily by the backend; results are not persisted to a database or file.
-- The sidebar uses a fixed width on desktop and adapts for narrow screens.
-- `cosine` distance is available for DBSCAN, but distance metrics should be selected with care for the dataset.
+## ⚠️ Limitations
 
-## Possible Future Enhancements
+- Currently supports synthetic two-dimensional datasets for direct visualization.
+- Does not currently support custom CSV dataset uploads.
+- Step-by-step K-Means uses a single initialization, whereas standard Scikit-learn K-Means uses multiple initializations. Results may differ.
+- K-Means and DBSCAN are sensitive to parameter selection and data characteristics.
+- DBSCAN may struggle with datasets containing significantly different density levels.
+- Silhouette Scores calculated on different evaluated point sets are not directly comparable.
+- Experiment results are not permanently stored in a database or file.
 
-- Upload custom CSV datasets with two selected features.
-- Add an elbow-method view for selecting K.
-- Add a k-distance graph to support eps selection.
-- Add additional internal evaluation measures such as the Davies–Bouldin index.
-- Export experiment results and figures.
-- Support higher-dimensional data with projection or feature selection.
-- Add an instructor mode with additional guided exercises.
+---
+
+## 🔮 Future Enhancements
+
+The following improvements can extend the capabilities of the virtual laboratory:
+
+- [ ] Support custom CSV dataset uploads.
+- [ ] Add an Elbow Method visualization for selecting the optimal K.
+- [ ] Implement a K-distance graph for DBSCAN epsilon selection.
+- [ ] Add additional evaluation metrics such as the Davies-Bouldin Index.
+- [ ] Enable experiment result and visualization exports.
+- [ ] Support higher-dimensional datasets using PCA.
+- [ ] Introduce guided exercises and instructor-oriented features.
+
+---
+
+## 🎓 Learning Outcomes
+
+By using this virtual laboratory, students can:
+
+- Understand the practical implementation of unsupervised learning algorithms.
+- Visualize the internal working of clustering techniques.
+- Analyze the influence of parameters on clustering outcomes.
+- Differentiate between partitioning-based and density-based approaches.
+- Interpret clustering evaluation metrics.
+- Gain practical experience with machine learning and full-stack application development.
+
+---
+
+## 👨‍💻 Author
+
+**Pranav Kule**
+
+GitHub: [@pranavkule](https://github.com/pranavkule)
+
+---
+
+**If you find this project useful, consider giving the repository a ⭐ on GitHub!**
