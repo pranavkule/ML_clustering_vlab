@@ -5,10 +5,11 @@ import Theory from './components/Theory.jsx'
 import Procedure from './components/Procedure.jsx'
 import Simulation from './components/Simulation.jsx'
 import Quiz from './components/Quiz.jsx'
+import Conclusion from './components/Conclusion.jsx'
 
 export default function App() {
   const [section, setSection] = useState('Aim')
-  const pages = { Aim, Theory, Procedure, Simulation, 'Quiz Based Assessment': Quiz }
+  const pages = { Aim, Theory, Procedure, Simulation, 'Quiz Based Assessment': Quiz , Conclusion }
   const Page = pages[section]
   return (
     <div className="app-shell">

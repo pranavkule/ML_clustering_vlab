@@ -1,5 +1,5 @@
 export default function Sidebar({ section, onChange }) {
-  const sections = ['Aim', 'Theory', 'Procedure', 'Simulation', 'Quiz Based Assessment']
+  const sections = ['Aim', 'Theory', 'Procedure', 'Simulation', 'Quiz Based Assessment' , 'Conclusion']
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">Clustering Lab</div>
